@@ -6,6 +6,7 @@
 - [PL/SQL Cursors](#plsql-cursors)
 - [PL/SQL Procedures](#plsql-procedures)
 - [PL/SQL Functions](#plsql-functions)
+- [Pl/SQL Packages](#plsql-packages)
 - [PL/SQL Triggers](#plsql-triggers)
 - [PL/SQL Dynamic SQL](#plsql-dynamic-sql)
 ## Basic PL/SQL
@@ -318,7 +319,74 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('The square of 4 is: ' || v_result);  -- Outputs: The square of 4 is: 16
 END;
 ```
+## Pl/SQL Packages
+Packages are an important feature of PL/SQL that allow you to group related procedures, functions, variables, and other PL/SQL constructs into a single unit. This organization helps improve code modularity, reusability, and maintainability.
 
+### Components of a Package
+A package has two main components:
+
+- Package Specification: This is the public interface of the package, which declares the procedures, functions, types, and variables that can be accessed from outside the package.
+
+- Package Body: This contains the actual implementation of the procedures and functions declared in the package specification. It can also include private procedures and variables that are not accessible outside the package.
+
+### Example of a PL/SQL Package
+- Step 1: Create the Package Specification
+```sql
+  CREATE OR REPLACE PACKAGE employee_pkg AS
+    -- Public procedure to add an employee
+    PROCEDURE add_employee(p_first_name IN VARCHAR2, p_last_name IN VARCHAR2, p_salary IN NUMBER);
+    
+    -- Public function to get employee salary
+    FUNCTION get_employee_salary(p_employee_id IN NUMBER) RETURN NUMBER;
+END employee_pkg;
+```
+- Step 2: Create the Package Body
+```sql
+CREATE OR REPLACE PACKAGE BODY employee_pkg AS
+    -- Table to store employee data
+    TYPE employee_record IS RECORD (
+        id NUMBER,
+        first_name VARCHAR2(50),
+        last_name VARCHAR2(50),
+        salary NUMBER
+    );
+    
+    employees employee_record;
+    
+    PROCEDURE add_employee(p_first_name IN VARCHAR2, p_last_name IN VARCHAR2, p_salary IN NUMBER) IS
+    BEGIN
+        -- Here you would typically insert into a database table
+        DBMS_OUTPUT.PUT_LINE('Added employee: ' || p_first_name || ' ' || p_last_name || ' with salary ' || p_salary);
+    END add_employee;
+
+    FUNCTION get_employee_salary(p_employee_id IN NUMBER) RETURN NUMBER IS
+    BEGIN
+        -- Here you would typically retrieve the salary from a database table
+        RETURN 1000;  -- Example static return for illustration
+    END get_employee_salary;
+END employee_pkg;
+```
+#### Explanation of the Package
+- employee_pkg: This is the name of the package.
+- add_employee: A public procedure that takes first name, last name, and salary as input to add an employee.
+- get_employee_salary: A public function that returns the salary of an employee based on the employee ID.
+#### Using the Package
+```sql
+BEGIN
+    employee_pkg.add_employee('Alice', 'Johnson', 1200);
+    DECLARE
+        v_salary NUMBER;
+    BEGIN
+        v_salary := employee_pkg.get_employee_salary(1);
+        DBMS_OUTPUT.PUT_LINE('Employee Salary: ' || v_salary);
+    END;
+END;
+```
+#### Benefits of Using Packages
+- Modularity: Group related code together, making it easier to manage and understand.
+- Encapsulation: Hide implementation details by exposing only the package specification.
+- Reusability: Functions and procedures can be reused across different programs.
+- Reduced Namespace Pollution: Variables and types declared in a package are encapsulated, reducing conflicts.
 ## PL/SQL Triggers
 
 ### Overview
