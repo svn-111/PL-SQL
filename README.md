@@ -1,51 +1,18 @@
 # PL-SQL
-
-## SQL Clause Order
-
-### Overview
-This document provides the typical order of clauses in a SQL `SELECT` statement, along with an example to illustrate their usage.
-
-### Order of SQL Clauses
-
-The standard order of clauses in a SQL `SELECT` statement is as follows:
-
-1. **SELECT**: Specify the columns to be retrieved.
-2. **FROM**: Specify the tables from which to retrieve the data.
-3. **JOIN**: (If needed) Join other tables to the primary table.
-4. **WHERE**: Filter records based on specified conditions.
-5. **GROUP BY**: Group the result set based on one or more columns.
-6. **HAVING**: Filter groups based on aggregate conditions.
-7. **ORDER BY**: Sort the result set based on one or more columns.
-8. **LIMIT / OFFSET**: (If applicable) Limit the number of rows returned.
-
-## Example SQL Query
-
-Here’s a complete example that incorporates all these clauses:
-
-```sql
-SELECT 
-    e.employee_id, 
-    e.first_name, 
-    SUM(s.amount) AS total_sales
-FROM 
-    employees e
-JOIN 
-    sales s ON e.employee_id = s.employee_id
-WHERE 
-    e.department_id = 10
-GROUP BY 
-    e.employee_id, e.first_name
-HAVING 
-    SUM(s.amount) > 5000
-ORDER BY 
-    total_sales DESC
-LIMIT 10;
-```
-
-## What is PL/SQL?
+- [Basic PL/SQL](#basic-plsql)
+- [Control Structures](#control-structures)
+- [Exception Handling](#exception-handling)
+- [SQL Clause Order](#sql-clause-order)
+- [PL/SQL Cursors](#plsql-cursors)
+- [PL/SQL Procedures](#plsql-procedures)
+- [PL/SQL Functions](#plsql-functions)
+- [PL/SQL Triggers](#plsql-triggers)
+- [PL/SQL Dynamic SQL](#plsql-dynamic-sql)
+## Basic PL/SQL
+### What is PL/SQL?
 PL/SQL is a procedural language designed to enhance SQL by providing features like loops, conditions, and exception handling. It's commonly used in Oracle databases for creating stored procedures, functions, triggers, and more.
 
-## PL/SQL Block Structure
+### PL/SQL Block Structure
 A PL/SQL block consists of three main sections:
 
 1. **Declaration Section (optional)**: Define variables, constants, and cursors.
@@ -72,7 +39,7 @@ END;
 - **BEGIN**: Marks the start of the execution section.
 - **EXCEPTION**: Handles errors that might occur in the execution section.
 - **END**: Used to terminate the block.
-## Variables and Data Types
+### Variables and Data Types
 You can declare variables in the `DECLARE` section. Some common PL/SQL data types include:
 
 - **NUMBER**: For numeric values.
@@ -137,11 +104,51 @@ BEGIN
     END;
 END;
 ```
+## SQL Clause Order
 
+### Overview
+This document provides the typical order of clauses in a SQL `SELECT` statement, along with an example to illustrate their usage.
 
-# PL/SQL Cursors
+### Order of SQL Clauses
 
-## Cursors
+The standard order of clauses in a SQL `SELECT` statement is as follows:
+
+1. **SELECT**: Specify the columns to be retrieved.
+2. **FROM**: Specify the tables from which to retrieve the data.
+3. **JOIN**: (If needed) Join other tables to the primary table.
+4. **WHERE**: Filter records based on specified conditions.
+5. **GROUP BY**: Group the result set based on one or more columns.
+6. **HAVING**: Filter groups based on aggregate conditions.
+7. **ORDER BY**: Sort the result set based on one or more columns.
+8. **LIMIT / OFFSET**: (If applicable) Limit the number of rows returned.
+
+### Example SQL Query
+
+Here’s a complete example that incorporates all these clauses:
+
+```sql
+SELECT 
+    e.employee_id, 
+    e.first_name, 
+    SUM(s.amount) AS total_sales
+FROM 
+    employees e
+JOIN 
+    sales s ON e.employee_id = s.employee_id
+WHERE 
+    e.department_id = 10
+GROUP BY 
+    e.employee_id, e.first_name
+HAVING 
+    SUM(s.amount) > 5000
+ORDER BY 
+    total_sales DESC
+LIMIT 10;
+```
+
+## PL/SQL Cursors
+
+### Cursors
 Cursors allow you to fetch and process database rows one at a time. A cursor acts as a pointer to a query result set in PL/SQL.
 
 ### Why Use Cursors?
@@ -201,12 +208,12 @@ BEGIN
 END;
 ```
 
-## Example of using an explicit cursor
+### Example of using an explicit cursor
 
-### Overview
+#### Overview
 This document provides an example of using an explicit cursor in PL/SQL to calculate employee bonuses based on their base salary.
 
-### SQL Table Structure
+#### SQL Table Structure
 
 Assume we have an `employees` table with the following fields:
 
@@ -347,12 +354,12 @@ BEGIN
     END IF;
 END;
 ```
-#### Explanation
+### Explanation
 In this example:
 
 - The trigger before_employee_insert fires before an employee record is inserted into the employees table.
 - If the new employee's salary is less than 1000, the trigger raises an error with the message: "Salary must be at least 1000."
-#### Key Points
+### Key Points
 - :NEW refers to the new values being inserted or updated in the table.
 - Triggers can be classified as BEFORE (executed before the action) or AFTER (executed after the action) triggers.
 
